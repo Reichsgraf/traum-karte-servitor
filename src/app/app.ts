@@ -37,6 +37,7 @@ import { MatDivider } from '@angular/material/divider';
 export class App implements OnInit {
   protected formGroup: FormGroup;
   protected result: number = 0;
+  protected launched: boolean = false;
 
   constructor(
     private clipboard: Clipboard,
@@ -58,16 +59,17 @@ export class App implements OnInit {
   }
 
   precise(n: number, digits=1) {
-    return parseFloat(n.toFixed(digits))
+    return parseFloat(n.toFixed(digits));
   }
 
   calculate() {
-    const y0 = this.formGroup.get("startPointHeight")?.value
-    const x1 = this.formGroup.get("riftPointDistance")?.value
-    const y1 = this.formGroup.get("riftPointHeight")?.value
-    const x2 = this.formGroup.get("targetPointDistance")?.value
-    const y2 = this.formGroup.get("targetPointHeight")?.value
+    this.launched = true;
+    const y0 = this.formGroup.get("startPointHeight")?.value;
+    const x1 = this.formGroup.get("riftPointDistance")?.value;
+    const y1 = this.formGroup.get("riftPointHeight")?.value;
+    const x2 = this.formGroup.get("targetPointDistance")?.value;
+    const y2 = this.formGroup.get("targetPointHeight")?.value;
 
-    this.result = ((-1) * (y2 - y1) / this.precise(x2 - x1) * x1 + Number(y1) - y0)
+    this.result = ((-1) * (y2 - y1) / this.precise(x2 - x1) * x1 + Number(y1) - y0);
   }
 }

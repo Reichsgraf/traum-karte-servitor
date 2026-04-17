@@ -46,10 +46,16 @@
       </div>
     </form>
 
-    @if (result > 0) {
-      <div class="result-frame">
-        Ретранслятор необхідно підняти на наступну висоту від точки вильоту: {{result | number:'1.2-2' }}м.
-      </div>
+    @if (launched) {
+      @if (result > 0) {
+        <div class="result-frame">
+          Ретранслятор необхідно підняти на наступну висоту від точки вильоту: {{result | number:'1.2-2' }}м.
+        </div>
+      } @else {
+        <div class="result-frame">
+          Немає необхідності в використанні ретранслятору.
+        </div>
+      }
     }
   </div>
 </main>
