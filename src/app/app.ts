@@ -64,11 +64,11 @@ export class App implements OnInit {
 
   calculate() {
     this.launched = true;
-    const y0 = this.formGroup.get("startPointHeight")?.value;
-    const x1 = this.formGroup.get("riftPointDistance")?.value;
-    const y1 = this.formGroup.get("riftPointHeight")?.value;
-    const x2 = this.formGroup.get("targetPointDistance")?.value;
-    const y2 = this.formGroup.get("targetPointHeight")?.value;
+    const y0 = this.formGroup.get("startPointHeight")?.value?.replace(",", ".");
+    const x1 = this.formGroup.get("riftPointDistance")?.value.replace(",", ".");
+    const y1 = this.formGroup.get("riftPointHeight")?.value.replace(",", ".");
+    const x2 = this.formGroup.get("targetPointDistance")?.value.replace(",", ".");
+    const y2 = this.formGroup.get("targetPointHeight")?.value.replace(",", ".");
 
     this.result = ((-1) * (y2 - y1) / this.precise(x2 - x1) * x1 + Number(y1) - y0);
   }
