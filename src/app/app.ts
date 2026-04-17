@@ -1,16 +1,16 @@
 import {Component, Inject, LOCALE_ID, OnInit} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { MatInputModule } from '@angular/material/input';
-import { MatDatepickerModule,
-} from '@angular/material/datepicker';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import {MAT_DATE_LOCALE, provideNativeDateAdapter} from '@angular/material/core';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatTimepickerModule} from '@angular/material/timepicker';
 import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {MatButton} from '@angular/material/button';
 import { Clipboard } from '@angular/cdk/clipboard';
-import {formatDate} from '@angular/common';
+import {formatDate, DecimalPipe} from '@angular/common';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { MatDivider } from '@angular/material/divider';
 
 @Component({
   selector: 'app-root',
@@ -22,7 +22,9 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
     ReactiveFormsModule,
     MatButton,
     MatTimepickerModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatDivider,
+    DecimalPipe
   ],
   providers: [
     provideNativeDateAdapter(),
@@ -34,7 +36,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 })
 export class App implements OnInit {
   protected formGroup: FormGroup;
-  protected uavOptions = ['AS 3', 'Grey Widow', 'Sting', 'VB140 Блискавка', 'F7 LITAVR', 'БАГНЕТ-АА', 'P1SUN'].sort()
+  protected result: number = 0;
 
   constructor(
     private clipboard: Clipboard,
@@ -43,14 +45,11 @@ export class App implements OnInit {
     const currentDate: Date = new Date();
 
     this.formGroup = new FormGroup({
-      crewName: new FormControl(''),
-      uav: new FormControl(''),
-      targetNumber: new FormControl(''),
-      startLocation: new FormControl(''),
-      startDate: new FormControl(currentDate),
-      endLocation: new FormControl(''),
-      endDate: new FormControl(currentDate),
-      result: new FormControl(''),
+      startPointHeight: new FormControl(''),
+      riftPointHeight: new FormControl(''),
+      riftPointDistance: new FormControl(''),
+      targetPointHeight: new FormControl(''),
+      targetPointDistance: new FormControl(''),
     });
   }
 
@@ -58,41 +57,17 @@ export class App implements OnInit {
 
   }
 
-  setCurrentTime(controlName: string) {
-    const currentDate: Date = new Date();
-    this.formGroup.get(controlName)?.setValue(currentDate);
+  precise(n: number, digits=1) {
+    return parseFloat(n.toFixed(digits))
   }
 
-  startFlight() {
-    const startDateTime = this.formatDateTime("startDate")
-    this.clipboard.copy(
-      `Тип: БпЛА літакового типу\n` +
-      `Екіпаж: ${this.formGroup.get("crewName")?.value}\n` +
-      `Коментар: ${this.formGroup.get("targetNumber")?.value}\n` +
-      `Час: ${startDateTime}\n` +
-      `${this.formGroup.get("uav")?.value}\n` +
-      `${this.formGroup.get("startLocation")?.value}`
-    );
-  }
+  calculate() {
+    const y0 = this.formGroup.get("startPointHeight")?.value
+    const x1 = this.formGroup.get("riftPointDistance")?.value
+    const y1 = this.formGroup.get("riftPointHeight")?.value
+    const x2 = this.formGroup.get("targetPointDistance")?.value
+    const y2 = this.formGroup.get("targetPointHeight")?.value
 
-  endFlight() {
-    const starDateTime = this.formatDateTime("startDate")
-    const endDateTime = this.formatDateTime("endDate")
-    this.clipboard.copy(
-      `Тип: БпЛА літакового типу\n` +
-      `Екіпаж: ${this.formGroup.get("crewName")?.value}\n` +
-      `Коментар: ${this.formGroup.get("targetNumber")?.value}\n` +
-      `Час: ${starDateTime}\n` +
-      `Час: ${endDateTime}\n` +
-      `${this.formGroup.get("uav")?.value}\n` +
-      `${this.formGroup.get("startLocation")?.value}\n` +
-      `${this.formGroup.get("result")?.value}\n` +
-      `${this.formGroup.get("endLocation")?.value}`
-    );
-  }
-
-  formatDateTime(dateControlName: string) {
-    const dateTime = new Date(this.formGroup.get(dateControlName)?.value)
-    return formatDate(dateTime, "dd.MM.yyyy HH:mm", this.locale)
+    this.result = ((-1) * (y2 - y1) / this.precise(x2 - x1) * x1 + Number(y1) - y0)
   }
 }

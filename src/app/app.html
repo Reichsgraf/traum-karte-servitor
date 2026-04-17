@@ -2,99 +2,55 @@
   <div class="form-generator">
     <form class="form" [formGroup]="formGroup">
       <mat-form-field>
-        <mat-label>Екіпаж</mat-label>
-        <input [formControlName]="'crewName'"
-               matInput placeholder="Назва вашого екіпажу" value="">
+        <mat-label>Висота точки зльоту</mat-label>
+        <input [formControlName]="'startPointHeight'"
+               matInput placeholder="Висота точки в метрах" value="">
       </mat-form-field>
 
-      <mat-form-field class="example-full-width">
-        <mat-label>Борт</mat-label>
-        <input type="text"
-               placeholder="Виберіть ваш борт"
-               aria-label="Борт"
-               matInput
-               [formControlName]="'uav'"
-               [matAutocomplete]="auto">
-        <mat-autocomplete #auto="matAutocomplete">
-          @for (option of uavOptions; track option) {
-            <mat-option [value]="option">{{option}}</mat-option>
-          }
-        </mat-autocomplete>
-      </mat-form-field>
+      <mat-divider></mat-divider>
 
-      <mat-form-field>
-        <mat-label>Номер цілі</mat-label>
-        <input [formControlName]="'targetNumber'"
-               matInput placeholder="Номер цілі відповідно до віражу, у інших випадках вказуйте джерело в дужках після номера." value="">
-      </mat-form-field>
-
-      <mat-form-field>
-        <mat-label>Місце початку польоту</mat-label>
-        <input [formControlName]="'startLocation'"
-               matInput placeholder="Назва населеного пункту, біля якого виконувався зліт." value="">
-      </mat-form-field>
-
-      <div class="date-row">
-        <mat-form-field style="grid-area: d">
-          <mat-label>Дата початку польоту</mat-label>
-          <input [formControlName]="'startDate'"
-                 matInput [matDatepicker]="spicker" placeholder="ДД.ММ.ГГГГ">
-          <mat-datepicker-toggle matIconSuffix [for]="spicker"></mat-datepicker-toggle>
-          <mat-datepicker #spicker></mat-datepicker>
+      <div class="form-line">
+        <mat-form-field>
+          <mat-label>Висота точки перегибу</mat-label>
+          <input [formControlName]="'riftPointHeight'"
+                 matInput placeholder="Висота точки в метрах" value="">
         </mat-form-field>
 
-        <mat-form-field style="grid-area: t">
-          <mat-label>Час початку польоту</mat-label>
-          <input matInput
-                 [matTimepicker]="stimepicker"
-                 [formControlName]="'startDate'">
-          <mat-timepicker #stimepicker/>
-          <mat-timepicker-toggle [for]="stimepicker" matSuffix/>
+        <mat-form-field>
+          <mat-label>Дальність точки перегибу</mat-label>
+          <input [formControlName]="'riftPointDistance'"
+                 matInput placeholder="Дальність точки в кілометрах" value="">
         </mat-form-field>
-
-        <button style="grid-area: b" matButton="filled" (click)="setCurrentTime('startDate')">Поточний час</button>
       </div>
 
-      <mat-form-field>
-        <mat-label>Місце закінчення польоту</mat-label>
-        <input [formControlName]="'endLocation'"
-               matInput placeholder="Назва населеного пункту, біля якого борт було посажено/втрачено, або знищено ціль." value="">
-      </mat-form-field>
+      <mat-divider></mat-divider>
 
-      <div class="date-row">
-        <mat-form-field style="grid-area: d">
-          <mat-label>Дата закінчення польоту</mat-label>
-          <input [formControlName]="'endDate'"
-                 matInput [matDatepicker]="epicker" placeholder="ДД.ММ.ГГГГ">
-          <mat-datepicker-toggle matIconSuffix [for]="epicker"></mat-datepicker-toggle>
-          <mat-datepicker #epicker></mat-datepicker>
+      <div class="form-line">
+        <mat-form-field>
+          <mat-label>Висота точки цілі</mat-label>
+          <input [formControlName]="'targetPointHeight'"
+                 matInput placeholder="Висота точки в метрах" value="">
         </mat-form-field>
 
-        <mat-form-field style="grid-area: t">
-          <mat-label>Час закінчення польоту</mat-label>
-          <input matInput
-                 [matTimepicker]="etimepicker"
-                 [formControlName]="'endDate'">
-          <mat-timepicker #etimepicker/>
-          <mat-timepicker-toggle [for]="etimepicker" matSuffix/>
+        <mat-form-field>
+          <mat-label>Дальність точки цілі</mat-label>
+          <input [formControlName]="'targetPointDistance'"
+                 matInput placeholder="Дальність точки в кілометрах" value="">
         </mat-form-field>
-
-        <button style="grid-area: b" matButton="filled" (click)="setCurrentTime('endDate')">Поточний час</button>
       </div>
 
-      <mat-form-field>
-        <mat-label>Результат польоту</mat-label>
-        <textarea [formControlName]="'result'"
-                  matInput placeholder="Результат польоту. Наприклад, «Ціль знищено, ціль — Гербера».">
-        </textarea>
-      </mat-form-field>
+      <mat-divider></mat-divider>
 
       <div class="button-container">
-        <button matButton="filled" (click)="startFlight()">Почати політ</button>
-
-        <button matButton="filled" (click)="endFlight()">Завершити політ</button>
+        <button matButton="filled" (click)="calculate()">Розрахувати</button>
       </div>
     </form>
+
+    @if (result > 0) {
+      <div class="result-frame">
+        Ретранслятор необхідно підняти на наступну висоту від точки вильоту: {{result | number:'1.2-2' }}м.
+      </div>
+    }
   </div>
 </main>
 

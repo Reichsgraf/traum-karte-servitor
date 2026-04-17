@@ -19,12 +19,16 @@ main {
     grid-auto-flow: row;
   }
 
-  .date-row {
+  .form-line {
     display: grid;
-    grid-template-columns: 3fr 3fr 2fr;
-    grid-template-areas: 'd t b';
+    grid-template-columns: 1fr 1fr;
     gap: $gap;
   }
+
+  .result-frame {
+    padding-top: 15px;
+  }
+
 
   @media (max-width: 576px) {
     .date-row {
@@ -39,7 +43,7 @@ main {
 
   .button-container {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: $gap;
   }
 
@@ -47,4 +51,8 @@ main {
     height: 56px;
     font-size: 1rem;
   }
+}
+
+mat-divider {
+  margin-bottom: 15px;
 }
