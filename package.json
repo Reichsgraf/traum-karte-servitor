@@ -1,12 +1,12 @@
 {
-  "name": "report-attunement-servitor",
+  "name": "traum-karte-servito",
   "version": "0.0.0",
-  "homepage": "https://reichsgraf.github.io/report-attunement-servitor/",
+  "homepage": "https://reichsgraf.github.io/traum-karte-servito/",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "build:github": "ng build --output-path docs-temp --base-href /report-attunement-servitor/ && node copy-build.js"
+    "build:github": "ng build --output-path docs-temp --base-href /traum-karte-servito/ && node copy-build.js"
   },
   "prettier": {
     "printWidth": 100,
