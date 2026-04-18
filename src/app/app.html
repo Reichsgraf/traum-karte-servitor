@@ -1,25 +1,49 @@
 <main class="main">
   <div class="form-generator">
     <form class="form" [formGroup]="formGroup">
-      <mat-form-field>
-        <mat-label>Висота точки зльоту</mat-label>
-        <input [formControlName]="'startPointHeight'"
-               matInput placeholder="Висота точки в метрах" value="">
-      </mat-form-field>
-
-      <mat-divider></mat-divider>
-
       <div class="form-line">
         <mat-form-field>
-          <mat-label>Висота точки перегибу</mat-label>
-          <input [formControlName]="'riftPointHeight'"
-                 matInput placeholder="Висота точки в метрах" value="">
+          <mat-label>Висота точки зльоту (м)</mat-label>
+          <input [formControlName]="'startPointHeight'"
+                 matInput placeholder="Висота точки в метрах">
         </mat-form-field>
 
         <mat-form-field>
-          <mat-label>Дальність точки перегибу</mat-label>
+          <mat-label>Віддаленність ретранслятору (км)</mat-label>
+          <input [formControlName]="'startPointDistance'"
+                 matInput placeholder="Дальність точки в кілометрах"
+                 matTooltip="Віддаленість ретранслятору від точки зльоту. Вкажіть 0, якщо плануєте тримати ретранслятор над собою, інакше — дистанцію наближення до цілі.">
+        </mat-form-field>
+      </div>
+
+      <mat-divider></mat-divider>
+
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          Що таке точка перегину?
+        </mat-expansion-panel-header>
+
+        <ng-template matExpansionPanelContent>
+          <mat-card class="notes-frame" appearance="outlined">
+            <img mat-card-image src="assets/how-to.png" alt="Приклад">
+            <mat-card-content>
+              <p>Точка перегину — це така точка на профілі висот, яка образує з точкою цілі пряму, що перетинає профіль висот лише в точці перегину та точці цілі.</p>
+            </mat-card-content>
+          </mat-card>
+        </ng-template>
+      </mat-expansion-panel>
+
+      <div class="form-line">
+        <mat-form-field>
+          <mat-label>Висота точки перегину (м)</mat-label>
+          <input [formControlName]="'riftPointHeight'"
+                 matInput placeholder="Висота точки в метрах">
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Дальність точки перегину (км)</mat-label>
           <input [formControlName]="'riftPointDistance'"
-                 matInput placeholder="Дальність точки в кілометрах" value="">
+                 matInput placeholder="Дальність точки в кілометрах">
         </mat-form-field>
       </div>
 
@@ -27,15 +51,15 @@
 
       <div class="form-line">
         <mat-form-field>
-          <mat-label>Висота точки цілі</mat-label>
+          <mat-label>Висота точки цілі (м)</mat-label>
           <input [formControlName]="'targetPointHeight'"
-                 matInput placeholder="Висота точки в метрах" value="">
+                 matInput placeholder="Висота точки в метрах">
         </mat-form-field>
 
         <mat-form-field>
-          <mat-label>Дальність точки цілі</mat-label>
+          <mat-label>Дальність точки цілі (км)</mat-label>
           <input [formControlName]="'targetPointDistance'"
-                 matInput placeholder="Дальність точки в кілометрах" value="">
+                 matInput placeholder="Дальність точки в кілометрах">
         </mat-form-field>
       </div>
 
@@ -47,15 +71,15 @@
     </form>
 
     @if (launched) {
-      @if (result > 0) {
-        <div class="result-frame">
-          Ретранслятор необхідно підняти на наступну висоту від точки вильоту: {{result | number:'1.2-2' }}м.
-        </div>
-      } @else {
-        <div class="result-frame">
-          Немає необхідності в використанні ретранслятору.
-        </div>
-      }
+    <mat-card class="result-frame" appearance="outlined">
+      <mat-card-content>
+        @if (result > 0) {
+          <p>Ретранслятор необхідно підняти на наступну висоту над точкою вильоту: {{result | number:'1.2-2' }}м.</p>
+        } @else {
+          <p>Немає необхідності в використанні ретранслятору.</p>
+        }
+      </mat-card-content>
+    </mat-card>
     }
   </div>
 </main>
